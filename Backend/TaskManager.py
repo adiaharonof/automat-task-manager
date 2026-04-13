@@ -8,7 +8,7 @@ from datetime import datetime
 class TaskManager:
     def __init__(self):
         self.tasks: dict[int, Task] = {}
-        self.id_counter: int = 0
+        self.id_counter: int = 1
 
 
     def create_task(self, task: Task) -> Task:
@@ -35,10 +35,7 @@ class TaskManager:
                 completed_tasks.append(task)
         return completed_tasks
 
-<<<<<<< HEAD
-=======
 
->>>>>>> api
     def get_uncompleted_tasks(self) -> List:
         uncompleted_tasks = []
         for task in self.tasks.values():
@@ -46,19 +43,13 @@ class TaskManager:
                 uncompleted_tasks.append(task)
         return uncompleted_tasks
 
-<<<<<<< HEAD
-=======
 
->>>>>>> api
     def change_task_status(self, task_id: int, is_done: bool):
         task = self.get_task_by_id(task_id)
         task.change_task_status(is_done)
         return task
 
-<<<<<<< HEAD
-=======
 
->>>>>>> api
     def get_overdue_tasks(self) -> List:
         overdue_tasks = []
         for task in self.tasks.values():
@@ -66,10 +57,7 @@ class TaskManager:
                 overdue_tasks.append(task)
         return overdue_tasks
 
-<<<<<<< HEAD
-=======
 
->>>>>>> api
     def get_task_by_id(self, task_id: int) -> Task:
         if task_id not in self.tasks:
             raise ValueError(f'Task {task_id} does not exist')

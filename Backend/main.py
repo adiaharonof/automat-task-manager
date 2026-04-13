@@ -8,9 +8,9 @@ TASK_MANAGER = TaskManager()
 
 
 @app.post("/tasks")
-def create_task(task_title: str, task_description: str, task_deadline: datetime) -> Task:
+def create_task(task_title: str, task_description: str, task_deadline: datetime = None) -> Task:
     try:
-        new_task = Task(task_title, task_description, task_deadline)
+        new_task = Task(title = task_title, description = task_description, deadline = task_deadline)
         TASK_MANAGER.create_task(new_task)
         return new_task
     except (ValueError, TypeError) as e:
