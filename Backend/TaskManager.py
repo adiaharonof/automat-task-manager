@@ -1,4 +1,7 @@
 from typing import List
+
+from anyio.abc import TaskStatus
+
 from Task import *
 from datetime import datetime
 
@@ -39,6 +42,10 @@ class TaskManager:
                 uncompleted_tasks.append(task)
         return uncompleted_tasks
 
+    def change_task_status(self, task_id: int, is_done: bool):
+        task = self.get_task_by_id(task_id)
+        task.change_task_status(is_done)
+        return task
 
     def get_overdue_tasks(self) -> List:
         overdue_tasks = []
