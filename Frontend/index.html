@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+    <!-- Filter buttons -->
+    <div id="filters">
+        <button>All</button>
+        <button>Completed</button>
+        <button>In Progress</button>
+        <button>Overdue</button>
+    </div>
+
+    <!-- Create task button -->
+    <button id="open-modal">+ Create Task</button>
+
+    <!-- Tasks table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Done</th>
+                <th>In Progress</th>
+            </tr>
+        </thead>
+        <tbody id="tasks-body">
+        </tbody>
+    </table>
+
+    <!-- Popup -->
+    <div id="modal" style="display:none">
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="description" placeholder="Description">
+        <input type="datetime-local" id="deadline">
+        <button id="submit-task">Create</button>
+        <button id="close-modal">Cancel</button>
+    </div>
+
+</body>
+</html>
+</html>
