@@ -1,16 +1,60 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from fastapi import FastAPI, HTTPException
+from Task import *
+from TaskManager import *
+from datetime import datetime
+import uvicorn
+app = FastAPI()
+TASK_MANAGER = TaskManager()
 
 
-# Press the green button in the gutter to run the script.
+@app.post("/tasks")
+def create_task(task_title: str, task_description: str, task_deadline: datetime) -> Task:
+    try:
+        new_task = Task(task_title, task_description, task_deadline)
+        TASK_MANAGER.create_task(new_task)
+        return new_task
+    except (ValueError, TypeError) as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/tasks")
+def get_tasks() -> List[Task]:
+    return TASK_MANAGER.get_all_tasks()
+
+
+@app.get("/tasks/completed")
+def get_completed_tasks() -> List[Task]:
+    return TASK_MANAGER.get_completed_tasks()
+
+
+@app.get("/tasks/uncompleted")
+def get_uncompleted_tasks() -> List[Task]:
+    return TASK_MANAGER.get_uncompleted_tasks()
+
+
+@app.get("/tasks/overdue")
+def get_overdue_tasks() -> List[Task]:
+    return TASK_MANAGER.get_overdue_tasks()
+
+
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id: int) -> Task:
+    try:
+        task = TASK_MANAGER.delete_task(task_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return task
+
+
+@app.patch("/tasks/{task_id}")
+def change_task_status(task_id: int, is_done:bool) -> Task:
+    try:
+        return TASK_MANAGER.change_task_status(task_id, is_done)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    #using 0.0.0.0 and not Localhost in order to enable my docker to communicate
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
