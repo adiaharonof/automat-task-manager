@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>Task Manager</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Task Manager</h1>
@@ -16,29 +17,20 @@
     </div>
 
     <!-- Create task button -->
-    <button id="open-modal">+ Create Task</button>
+<button id="create-task-button">+ Create Task</button>
 
     <!-- Tasks table -->
-    <table>
-        <thead>
-            <tr>
-                <th>Done</th>
-                <th>In Progress</th>
-            </tr>
-        </thead>
-        <tbody id="tasks-body">
-        </tbody>
-    </table>
+<h2>My Tasks</h2>
+<ul id="tasks-list">
+</ul>
 
     <!-- Popup -->
-    <div id="modal" style="display:none">
+    <div id="pop-up" style="display:none">
         <input type="text" id="title" placeholder="Title">
         <input type="text" id="description" placeholder="Description">
         <input type="datetime-local" id="deadline">
         <button id="submit-task">Create</button>
-        <button id="close-modal">Cancel</button>
     </div>
 
 </body>
-</html>
 </html>
