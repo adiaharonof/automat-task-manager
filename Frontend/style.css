@@ -47,16 +47,6 @@ th, td {
     text-align: right;
 }
 
-#modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
 input {
     display: block;
     width: 100%;
@@ -69,4 +59,65 @@ input {
 #create-task-button {
     display: block;
     margin: 20px auto;
+}
+
+#pop-up {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    width: 300px;
+    z-index: 1000;
+}
+
+/* --- Task List Styles (The additions) --- */
+
+#tasks-list {
+    list-style: none; /* Removes the bullet points */
+    padding: 0;
+    margin-top: 15px;
+}
+
+.task-item {
+    background: #ffffff;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between; /* Pushes the delete button to the left */
+    align-items: center;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.task-info {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between checkbox and text */
+}
+
+.task-title {
+    font-weight: bold;
+    color: #333;
+    display: block;
+}
+
+.task-desc {
+    font-size: 0.85rem;
+    color: #777;
+    display: block;
+}
+
+.delete-btn {
+    background-color: #ff6b6b; /* Different color for delete button */
+    padding: 4px 10px;
+    font-size: 0.8rem;
+}
+
+.delete-btn:hover {
+    background-color: #ee5253;
 }

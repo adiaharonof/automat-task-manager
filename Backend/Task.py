@@ -5,7 +5,7 @@ from pydantic import BaseModel,Field, model_validator
 
 class Task(BaseModel):
         title: str
-        description: str = None
+        description: str
         deadline: Optional[datetime] = None
         completed_at: Optional[datetime] = None
         id: int = None

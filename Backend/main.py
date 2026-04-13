@@ -2,15 +2,28 @@ from fastapi import FastAPI, HTTPException
 from Task import *
 from TaskManager import *
 from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+
 app = FastAPI()
 TASK_MANAGER = TaskManager()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class TaskCreate(BaseModel):
+    task_title: str
+    task_description: str
+    task_deadline: Optional[datetime] = None
 
 @app.post("/tasks")
-def create_task(task_title: str, task_description: str = None, task_deadline: datetime = None) -> Task:
+def create_task(task_data: TaskCreate) -> Task:
     try:
-        new_task = Task(title = task_title, description = task_description, deadline = task_deadline)
+        new_task = Task(title=task_data.task_title, description=task_data.task_description, deadline=task_data.task_deadline)
         TASK_MANAGER.create_task(new_task)
         return new_task
     except (ValueError, TypeError) as e:
