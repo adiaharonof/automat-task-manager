@@ -1,4 +1,4 @@
-//veribale that keeps the current filter the user is using
+//variable that keeps the current filter the user is using
 let currentFilter = "All";
 
 // Function for the create task botton, when you click on the botton the forms the user needs to fill out are shown / hidden

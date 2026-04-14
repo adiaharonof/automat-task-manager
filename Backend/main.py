@@ -8,6 +8,7 @@ import uvicorn
 app = FastAPI()
 TASK_MANAGER = TaskManager()
 
+# allows all addresses to communicate with my API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,15 +16,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# pydentic class that defines what the user needs to fill when creating a task,
+# helps FastApi to convert and validate information received from the FrontEnd from JSON to a python object
 class TaskCreate(BaseModel):
     task_title: str
     task_description: str
     task_deadline: Optional[datetime] = None
 
+
 @app.post("/tasks")
 def create_task(task_data: TaskCreate) -> Task:
+    """
+    receives all the needed information from the frontend after pydentic and creating a task using the Task and TaskManager classes.
+    """
     try:
-        new_task = Task(title=task_data.task_title, description=task_data.task_description, deadline=task_data.task_deadline)
+        new_task = Task(title=task_data.task_title, description=task_data.task_description,
+                        deadline=task_data.task_deadline)
         TASK_MANAGER.create_task(new_task)
         return new_task
     except (ValueError, TypeError) as e:
@@ -52,6 +61,11 @@ def get_overdue_tasks() -> List[Task]:
 
 @app.delete("/tasks/{task_id}")
 def delete_task(task_id: int) -> Task:
+    """
+    trying to delete a task and catching an error if the task doesn't exist.
+    :param task_id:
+    :return: the task itself
+    """
     try:
         task = TASK_MANAGER.delete_task(task_id)
     except ValueError as e:
@@ -60,7 +74,8 @@ def delete_task(task_id: int) -> Task:
 
 
 @app.patch("/tasks/{task_id}")
-def change_task_status(task_id: int, is_done:bool) -> Task:
+def change_task_status(task_id: int, is_done: bool) -> Task:
+    """changes the task status to Done / In progress"""
     try:
         return TASK_MANAGER.change_task_status(task_id, is_done)
     except ValueError as e:
@@ -68,6 +83,5 @@ def change_task_status(task_id: int, is_done:bool) -> Task:
 
 
 if __name__ == '__main__':
-    #using 0.0.0.0 and not Localhost in order to enable my docker to communicate
+    # using 0.0.0.0 and not Localhost in order to enable my docker to communicate
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
-
