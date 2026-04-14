@@ -64,6 +64,10 @@ function createTask() {
         alert("Please enter a title");
         return;
     }
+    if (!description) {
+    alert("Please enter a description");
+    return;
+    }
     fetch("http://localhost:8000/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
