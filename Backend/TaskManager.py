@@ -1,7 +1,6 @@
 from typing import List
 from Task import *
-from datetime import datetime
-
+from datetime import datetime, timezone
 
 class TaskManager:
     def __init__(self):
@@ -49,7 +48,7 @@ class TaskManager:
         then adding it to a list and returning the overdue tasks list"""
         overdue_tasks = []
         for task in self.tasks.values():
-            if not task.done and task.deadline is not None and task.deadline < datetime.now():
+            if not task.done and task.deadline is not None and task.deadline < datetime.now(timezone.utc):
                 overdue_tasks.append(task)
         return overdue_tasks
 

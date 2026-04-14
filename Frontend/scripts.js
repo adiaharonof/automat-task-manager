@@ -60,6 +60,7 @@ function createTask() {
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const deadline = document.getElementById("deadline").value;
+    const deadlineUTC = deadline ? new Date(deadline).toISOString() : null;
     if (!title) {
         alert("Please enter a title");
         return;
@@ -74,7 +75,7 @@ function createTask() {
         body: JSON.stringify({
             task_title: title,
             task_description: description,
-            task_deadline: deadline || null
+            task_deadline: deadlineUTC || null
         })
     })
     .then(response => {
