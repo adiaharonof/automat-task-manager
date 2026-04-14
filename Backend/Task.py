@@ -1,7 +1,9 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from pydantic import BaseModel, Field, model_validator
 
+def utc_now():
+    return datetime.now(timezone.utc)
 
 class Task(BaseModel):
     title: str
@@ -10,12 +12,12 @@ class Task(BaseModel):
     completed_at: Optional[datetime] = None
     id: int = None
     done: bool = False
-    created_at: datetime = Field(default_factory=datetime.now)
+    created_at: datetime = Field(default_factory=utc_now)
 
     def change_task_status(self, status: bool):
         """Change the status of the task to Done/ not Done and updates the completed at time."""
         if self.done is False and status is True:
-            self.completed_at = datetime.now()
+            self.completed_at = datetime.now(timezone.utc)
         self.done = status
         return self
 
