@@ -4,6 +4,8 @@ from TaskManager import *
 from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+from fastapi.responses import FileResponse
+from Word import *
 
 app = FastAPI()
 TASK_MANAGER = TaskManager()
@@ -102,6 +104,13 @@ def change_task_description(task_id: int, new_description: str) -> Task:
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     return edited_task
+
+
+@app.get("/tasks/word")
+def create_word_file():
+    create_tasks_document(TASK_MANAGER)
+    return FileResponse("tasks.docx", filename="tasks.docx", media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+
 
 
 if __name__ == '__main__':

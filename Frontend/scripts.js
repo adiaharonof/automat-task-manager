@@ -159,3 +159,7 @@ function editTask(taskId, currentTitle, currentDescription) {
     .then(() => fetchTasks(currentFilter))
     .catch(error => console.error("Error editing task:", error));
 }
+function downloadWord() {
+    window.open("http://localhost:8000/tasks/word", "_blank");
+}
+document.getElementById("download-btn").onclick = downloadWord;
