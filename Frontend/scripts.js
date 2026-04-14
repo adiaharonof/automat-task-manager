@@ -141,7 +141,14 @@ function editTask(taskId, currentTitle, currentDescription) {
 
     const newDescription = prompt("Edit description:", currentDescription);
     if (newDescription === null) return;
-
+    if (!newTitle.trim()) {
+        alert("Title cannot be empty");
+        return;
+    }
+    if (!newDescription.trim()) {
+        alert("Description cannot be empty");
+        return;
+    }
     fetch(`http://localhost:8000/tasks/${taskId}/title?new_title=${newTitle}`, {
         method: "PATCH"
     })
