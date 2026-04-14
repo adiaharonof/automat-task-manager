@@ -159,15 +159,7 @@ function editTask(taskId, currentTitle, currentDescription) {
     .then(() => fetchTasks(currentFilter))
     .catch(error => console.error("Error editing task:", error));
 }
-<<<<<<< HEAD
-
 function downloadWord() {
     window.open("https://task-manager-backend-h4n3.onrender.com/tasks/word", "_blank");
 }
 document.getElementById("download-btn").onclick = downloadWord;
-=======
-function downloadWord() {
-    window.open("http://localhost:8000/tasks/word", "_blank");
-}
-document.getElementById("download-btn").onclick = downloadWord;
->>>>>>> a314629aa18b707ae1bf9d549f28fb7b601dd5ea
