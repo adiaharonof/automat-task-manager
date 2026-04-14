@@ -15,7 +15,7 @@ window.onload = () => fetchTasks("All");
 // Fetch the tasks according to the current used filter
 function fetchTasks(filter = currentFilter) {
     currentFilter = filter; // Save the selected filter globally
-    let url = "http://localhost:8000/tasks";
+    let url = "https://task-manager-backend-h4n3.onrender.com/tasks";
     // Mapping filter names to your Backend endpoints
     if (filter === "Completed") url += "/completed";
     else if (filter === "In Progress") url += "/uncompleted";
@@ -42,7 +42,7 @@ function displayTasks(tasks) {
 
         li.innerHTML = `
             <div class="task-info">
-                <input type="checkbox" ${isCompleted ? "checked" : ""} 
+                <input type="checkbox" ${isCompleted ? "checked" : ""}
                     onclick="toggleTaskStatus(${task.id}, ${isCompleted})">
                 <div class="task-text" style="${isCompleted ? "text-decoration: line-through; opacity: 0.6;" : ""}">
                     <span class="task-title">${task.title}</span>
@@ -72,7 +72,7 @@ function createTask() {
     alert("Please enter a description");
     return;
     }
-    fetch("http://localhost:8000/tasks", {
+    fetch("https://task-manager-backend-h4n3.onrender.com/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -87,9 +87,9 @@ function createTask() {
     })
     .then(() => {
         togglePopup();
-        fetchTasks(currentFilter); // Refresh to show the new task while using the saved filter
-        
-        // Clear the inputs fild
+        fetchTasks(currentFilter);
+
+        // Clear the inputs field
         document.getElementById("title").value = "";
         document.getElementById("description").value = "";
         document.getElementById("deadline").value = "";
@@ -102,7 +102,7 @@ document.getElementById("submit-task").onclick = createTask;
 // Delete task and then refresh the list with the current filter
 function deleteTask(taskId) {
     if (!confirm("Are you sure?")) return;
-    fetch(`http://localhost:8000/tasks/${taskId}`, {
+    fetch(`https://task-manager-backend-h4n3.onrender.com/tasks/${taskId}`, {
         method: "DELETE"
     })
     .then(() => fetchTasks(currentFilter))
@@ -111,7 +111,7 @@ function deleteTask(taskId) {
 
 // changes the status of the task when the user clicks on the tasks checkbox
 function toggleTaskStatus(taskId, currentStatus) {
-    fetch(`http://localhost:8000/tasks/${taskId}?is_done=${!currentStatus}`, {
+    fetch(`https://task-manager-backend-h4n3.onrender.com/tasks/${taskId}?is_done=${!currentStatus}`, {
         method: "PATCH"
     })
     .then(() => fetchTasks(currentFilter))
@@ -150,12 +150,17 @@ function editTask(taskId, currentTitle, currentDescription) {
         alert("Description cannot be empty");
         return;
     }
-    fetch(`http://localhost:8000/tasks/${taskId}/title?new_title=${newTitle}`, {
+    fetch(`https://task-manager-backend-h4n3.onrender.com/tasks/${taskId}/title?new_title=${newTitle}`, {
         method: "PATCH"
     })
-    .then(() => fetch(`http://localhost:8000/tasks/${taskId}/description?new_description=${newDescription}`, {
+    .then(() => fetch(`https://task-manager-backend-h4n3.onrender.com/tasks/${taskId}/description?new_description=${newDescription}`, {
         method: "PATCH"
     }))
     .then(() => fetchTasks(currentFilter))
     .catch(error => console.error("Error editing task:", error));
 }
+
+function downloadWord() {
+    window.open("https://task-manager-backend-h4n3.onrender.com/tasks/word", "_blank");
+}
+document.getElementById("download-btn").onclick = downloadWord;
