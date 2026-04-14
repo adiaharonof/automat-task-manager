@@ -30,3 +30,19 @@ class Task(BaseModel):
         if len(self.title) > 50:
             raise ValueError("title must be under 50 characters")
         return self
+
+    def edit_title(self, new_title: str):
+        """gets a new title, checks it is not too long or empty and Changes the title of the task"""
+        if len(new_title) == 0 or len(new_title) > 50:
+            raise ValueError("Title can not be null or above 50 characters")
+        self.title = new_title
+        return self
+
+
+    def edit_description(self, new_description: str):
+        """gets a new description, checks it is not too long and Changes the description of the task"""
+        if len(new_description) == 0 or len(new_description) > 70:
+            raise ValueError("description can not be null or above 70 characters")
+        self.description = new_description
+        return self
+

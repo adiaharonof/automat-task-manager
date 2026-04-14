@@ -3,6 +3,10 @@ from Task import *
 from datetime import datetime
 
 
+class TaskNotFoundError(Exception):
+    pass
+
+
 class TaskManager:
     def __init__(self):
         self.tasks: dict[int, Task] = {}
@@ -16,8 +20,7 @@ class TaskManager:
         return task
 
     def delete_task(self, task_id: int) -> Task:
-        if task_id not in self.tasks:
-            raise ValueError(f'Task {task_id} does not exist')
+        self.get_task_by_id(task_id)
         return self.tasks.pop(task_id)
 
     def get_all_tasks(self) -> List:
@@ -55,5 +58,16 @@ class TaskManager:
 
     def get_task_by_id(self, task_id: int) -> Task:
         if task_id not in self.tasks:
-            raise ValueError(f'Task {task_id} does not exist')
+            raise TaskNotFoundError(f'Task {task_id} does not exist')
         return self.tasks.get(task_id)
+
+    def edit_task_title(self,task_id: int, new_title: str) -> Task:
+        task = self.get_task_by_id(task_id)
+        task.edit_title(new_title)
+        return task
+
+    def edit_task_description(self, task_id: int, new_description: str) -> Task:
+        task = self.get_task_by_id(task_id)
+        task.edit_description(new_description)
+        return task
+

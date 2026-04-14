@@ -114,3 +114,9 @@ input {
 .delete-btn:hover {
     background-color: #ee5253;
 }
+
+/* styles the plascment of the edit and delete bottons */
+.task-actions {
+    display: flex;
+    gap: 8px;
+}
