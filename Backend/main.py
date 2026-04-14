@@ -68,7 +68,7 @@ def delete_task(task_id: int) -> Task:
     """
     try:
         task = TASK_MANAGER.delete_task(task_id)
-    except ValueError as e:
+    except TaskNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
     return task
 
@@ -78,8 +78,30 @@ def change_task_status(task_id: int, is_done: bool) -> Task:
     """changes the task status to Done / In progress"""
     try:
         return TASK_MANAGER.change_task_status(task_id, is_done)
-    except ValueError as e:
+    except TaskNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+@app.patch("/tasks/{task_id}/title")
+def change_task_title(task_id: int, new_title: str) -> Task:
+    try:
+        edited_task = TASK_MANAGER.edit_task_title(task_id, new_title)
+    except TaskNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    return edited_task
+
+
+@app.patch("/tasks/{task_id}/description")
+def change_task_description(task_id: int, new_description: str) -> Task:
+    try:
+        edited_task = TASK_MANAGER.edit_task_description(task_id, new_description)
+    except TaskNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    return edited_task
 
 
 if __name__ == '__main__':

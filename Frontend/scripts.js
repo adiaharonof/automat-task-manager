@@ -49,8 +49,11 @@ function displayTasks(tasks) {
                     <span class="task-desc">${task.description || ""}</span>
                 </div>
             </div>
+            <div class="task-actions">
             <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
-        `;
+            <button onclick="editTask(${task.id}, '${task.title}', '${task.description}')">Edit</button>
+    </div>
+    `;
         list.appendChild(li);
     });
 }
@@ -131,3 +134,20 @@ const filterButtons = document.querySelectorAll("#filters button");
 filterButtons.forEach(btn => {
     btn.onclick = () => fetchTasks(btn.innerText);
 });
+
+function editTask(taskId, currentTitle, currentDescription) {
+    const newTitle = prompt("Edit title:", currentTitle);
+    if (newTitle === null) return;
+
+    const newDescription = prompt("Edit description:", currentDescription);
+    if (newDescription === null) return;
+
+    fetch(`http://localhost:8000/tasks/${taskId}/title?new_title=${newTitle}`, {
+        method: "PATCH"
+    })
+    .then(() => fetch(`http://localhost:8000/tasks/${taskId}/description?new_description=${newDescription}`, {
+        method: "PATCH"
+    }))
+    .then(() => fetchTasks(currentFilter))
+    .catch(error => console.error("Error editing task:", error));
+}
